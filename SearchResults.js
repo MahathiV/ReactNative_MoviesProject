@@ -1,9 +1,24 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  TextInput,
+} from "react-native";
 import { search, movie } from "./mockData";
 
 export default class SearchResults extends React.Component {
+  state = {
+    searchTitle: "",
+  };
+
+  onChangeText = (val) => {
+    this.setState({ searchTitle: val });
+  };
+
   movieTitles = () => {
     return search["Search"].map((item) => (
       <View key={item.imdbID} style={styles.searchResult}>
@@ -19,7 +34,13 @@ export default class SearchResults extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>{this.searchResults()}</ScrollView>
+      <ScrollView style={styles.container}>
+        <TextInput
+          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          onChangeText={(text) => this.onChangeText(text)}
+        ></TextInput>
+        {this.searchResults()}
+      </ScrollView>
     );
   }
 }
