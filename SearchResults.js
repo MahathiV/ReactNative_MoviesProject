@@ -9,8 +9,10 @@ import {
   TextInput,
 } from "react-native";
 import { search, movie } from "./mockData";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class SearchResults extends React.Component {
+  navigation = this.props.navigation;
   state = {
     searchTitle: "",
   };
@@ -22,8 +24,14 @@ export default class SearchResults extends React.Component {
   movieTitles = () => {
     return search["Search"].map((item) => (
       <View key={item.imdbID} style={styles.searchResult}>
-        <Image style={styles.posterView} source={{ uri: `${item.Poster}` }} />
-        <Text style={styles.movieTitleView}>{item["Title"]}</Text>
+        <TouchableOpacity
+          onPress={() =>
+            this.navigation.navigate("Detail", { movieID: item.imdbID })
+          }
+        >
+          <Image style={styles.posterView} source={{ uri: `${item.Poster}` }} />
+          <Text style={styles.movieTitleView}>{item["Title"]}</Text>
+        </TouchableOpacity>
       </View>
     ));
   };

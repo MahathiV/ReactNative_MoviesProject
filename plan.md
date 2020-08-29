@@ -1,21 +1,21 @@
-[X]Break into 3 classes
-
-[]Get API keys
+Setup
+- [ ]Get API keys
 
 Main App
-[X]implement stack navigation
+- [X]Break into 3 classes
+- [X]implement stack navigation
 
 Search results
-[X]search box
-[]initial api call from imdbID
-[]integrate api results
-[]trigger api call for next page when near bottom
-[]pass imdbID to movieDetails
-[]clean up styling
-[]filter results
+- [X]search box
+- []initial api call from imdbID
+- []integrate api results
+- []trigger api call for next page when near bottom
+- [X]pass imdbID to movieDetails
+- []filter results
+- []clean up styling
 
 Movie details
-[]make api call based on passed in imdbID
-[]itegrate api results
-[]display info about movie
-[]styling
+- []display info about movie using mock data
+- []make api call based on passed in imdbID
+- []use api call results instead of mock data
+- []styling
