@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { search, movie } from "./mockData";
 
-export default class App extends React.Component {
+export default class SearchResults extends React.Component {
   movieTitles = () => {
     return search["Search"].map((item) => (
       <View key={item.imdbID} style={styles.searchResult}>
