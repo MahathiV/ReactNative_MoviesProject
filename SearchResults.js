@@ -8,7 +8,7 @@ import {
   Image,
   TextInput,
 } from "react-native";
-import { search, movie } from "./mockData";
+import { search } from "./mockData";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class SearchResults extends React.Component {

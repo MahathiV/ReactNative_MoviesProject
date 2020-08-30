@@ -1,5 +1,5 @@
 Setup
-- [ ] Get API keys
+- [x] Get API keys
 
 Main App
 - [X] Break into 3 classes
@@ -19,3 +19,4 @@ Movie details
 - [ ] make api call based on passed in imdbID
 - [ ] use api call results instead of mock data
 - [ ] styling
+
