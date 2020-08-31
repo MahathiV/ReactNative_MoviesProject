@@ -8,9 +8,9 @@ function MovieDetails(props) {
 
   return (
     <View style={styles.container}>
-      <Text>{movie.Title}</Text>
-      <Text>Year of Release - {movie.Year}</Text>
-      <Text>Rating - {movie.Rated}</Text>
+      <Text style={{fontWeight: "bold"}}>{movie.Title}</Text>
+      <Text>Year of Release - <b>{movie.Year}</b></Text>
+      <Text >Rating - {movie.Rated}</Text>
       <Text>Runtime - {movie.Runtime}</Text>
       <Text>Genre - {movie.Genre}</Text>
       <Text>Director - {movie.Director}</Text>
@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    padding: 20,
+    margin:2,
+    alignSelf: "center",
+    fontSize: 30,
+    fontWeight: "bold"
   },
 });
 
