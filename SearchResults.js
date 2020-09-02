@@ -8,25 +8,37 @@ import {
   Image,
   TextInput,
 } from "react-native";
-import { search } from "./mockData";
+import API from "./env.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class SearchResults extends React.Component {
-  navigation = this.props.navigation;
   state = {
-    searchTitle: "",
+    data: null,
+    isLoading: true,
+    navigation: this.props.navigation,
+    searchTitle: "blade",
+    url: "http://www.omdbapi.com/?apikey=",
   };
+
+  componentDidMount() {
+    fetch(`${this.state.url}${API.data}&s=${this.state.searchTitle}`)
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ data });
+        this.setState({ isLoading: !this.state.isLoading });
+      });
+  }
 
   onChangeText = (val) => {
     this.setState({ searchTitle: val });
   };
 
   movieTitles = () => {
-    return search["Search"].map((item) => (
+    return this.state.data["Search"].map((item) => (
       <View key={item.imdbID} style={styles.searchResult}>
         <TouchableOpacity
           onPress={() =>
-            this.navigation.navigate("Detail", { movieID: item.imdbID })
+            this.state.navigation.navigate("Detail", { movieID: item.imdbID })
           }
         >
           <Image style={styles.posterView} source={{ uri: `${item.Poster}` }} />
@@ -41,6 +53,10 @@ export default class SearchResults extends React.Component {
   };
 
   render() {
+    if (this.state.isLoading) {
+      return <Text>Loading...</Text>;
+    }
+
     return (
       <ScrollView style={styles.container}>
         <TextInput
