@@ -8,15 +8,15 @@ function MovieDetails(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={{fontWeight: "bold"}}>{movie.Title}</Text>
-      <Text>Year of Release - <b>{movie.Year}</b></Text>
-      <Text >Rating - {movie.Rated}</Text>
-      <Text>Runtime - {movie.Runtime}</Text>
-      <Text>Genre - {movie.Genre}</Text>
-      <Text>Director - {movie.Director}</Text>
-      <Text>Actors - {movie.Actors}</Text>
-      <Text>Languages - {movie.Language}</Text>
-      <Text>Awards - {movie.Awards}</Text>
+       <Text style={{ fontWeight: "bold",fontSize:21}}>{movie.Title}</Text>
+       <Text style={styles.boldtText}>Year of Release - {movie.Year}</Text>
+       <Text style={styles.boldtText}>Rating - {movie.Rated}</Text>
+       <Text style={styles.boldtText}>Runtime - {movie.Runtime}</Text>
+       <Text style={styles.boldtText}>Genre - {movie.Genre}</Text>
+       <Text style={styles.boldtText}>Director - {movie.Director}</Text>
+       <Text style={styles.boldtText}>Actors - {movie.Actors}</Text>
+       <Text style={styles.boldtText}>Languages - {movie.Language}</Text>
+       <Text style={styles.boldtText}>Awards - {movie.Awards}</Text>
     </View>
   );
 }
@@ -28,9 +28,11 @@ const styles = StyleSheet.create({
     padding: 20,
     margin:2,
     alignSelf: "center",
-    fontSize: 30,
-    fontWeight: "bold"
+
   },
+  boldtText: {
+    fontSize: 18,
+  }
 });
 
 export default MovieDetails;
