@@ -6,6 +6,26 @@ import { movie } from "./mockData.js"
 function MovieDetails(props) {
   const temp = props.route.params.movieID;
 
+  function normalizeRatings(rating) {
+    var result = NaN
+    if (/^(\d+|(\.\d+))(\.\d+)?%$/.test(rating)) {
+      result = parseFloat(rating)
+    } else {
+      var split = rating.split('/');
+      var result = split[0]/split[1]*100
+    }
+    return result
+  }
+
+  ratings = () => {
+    return movie.Ratings.map((item) => (
+      <View style={styles.rating}>
+        <Text>{normalizeRatings(item.Value)} / 100: </Text>
+        <Text>{item.Source}</Text>
+      </View>
+    ));
+  }
+
   return (
     <View style={styles.container}>
        <Text style={{ fontWeight: "bold",fontSize:21 }}>{movie.Title}</Text>
@@ -17,6 +37,7 @@ function MovieDetails(props) {
        <Text style={styles.boldtText}>Actors - {movie.Actors}</Text>
        <Text style={styles.boldtText}>Languages - {movie.Language}</Text>
        <Text style={styles.boldtText}>Awards - {movie.Awards}</Text>
+       <View>{ratings()}</View>
     </View>
   );
 }
@@ -32,6 +53,9 @@ const styles = StyleSheet.create({
   },
   boldtText: {
     fontSize: 18,
+  },
+  rating: {
+    flexDirection: 'row',
   }
 });
 
