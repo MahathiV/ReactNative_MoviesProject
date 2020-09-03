@@ -8,7 +8,7 @@ function MovieDetails(props) {
 
   return (
     <View style={styles.container}>
-       <Text style={{ fontWeight: "bold",fontSize:21}}>{movie.Title}</Text>
+       <Text style={{ fontWeight: "bold",fontSize:21 }}>{movie.Title}</Text>
        <Text style={styles.boldtText}>Year of Release - {movie.Year}</Text>
        <Text style={styles.boldtText}>Rating - {movie.Rated}</Text>
        <Text style={styles.boldtText}>Runtime - {movie.Runtime}</Text>
