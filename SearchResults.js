@@ -8,7 +8,7 @@ import {
   Image,
   TextInput,
 } from "react-native";
-import API from "./env.js";
+import { OMDB_KEY } from "./env.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class SearchResults extends React.Component {
@@ -21,11 +21,10 @@ export default class SearchResults extends React.Component {
   };
 
   componentDidMount() {
-    fetch(`${this.state.url}${API.data}&s=${this.state.searchTitle}`)
+    fetch(`${this.state.url}${OMDB_KEY}&s=${this.state.searchTitle}`)
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ data });
-        this.setState({ isLoading: !this.state.isLoading });
+        this.setState({ data: data, isLoading: false });
       });
   }
 
