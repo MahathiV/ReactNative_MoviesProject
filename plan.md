@@ -12,7 +12,7 @@ Search results
 - [x] search box
 - [x] initial api call from imdbID
 - [x] integrate api results
-- [ ] trigger api call for next page when near bottom
+- [x] trigger api call for next page when near bottom
 - [x] pass imdbID to movieDetails
 - [ ] filter results
 - [ ] clean up styling

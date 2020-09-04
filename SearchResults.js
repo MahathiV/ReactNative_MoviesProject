@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
   StyleSheet,
@@ -18,22 +17,34 @@ export default class SearchResults extends React.Component {
     navigation: this.props.navigation,
     searchTitle: "blade",
     url: "http://www.omdbapi.com/?apikey=",
+    page: 0,
+    allResults: [],
   };
 
   componentDidMount() {
-    fetch(`${this.state.url}${OMDB_KEY}&s=${this.state.searchTitle}`)
+    this.getMovieData();
+  }
+
+  getMovieData = () => {
+    this.setState({ page: ++this.state.page });
+    fetch(
+      `${this.state.url}${OMDB_KEY}&s=${this.state.searchTitle}&page=${this.state.page}`
+    )
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ data: data, isLoading: false });
+        this.setState({
+          allResults: [...this.state.allResults, ...data.Search],
+          isLoading: false,
+        });
       });
-  }
+  };
 
   onChangeText = (val) => {
     this.setState({ searchTitle: val });
   };
 
   movieTitles = () => {
-    return this.state.data["Search"].map((item) => (
+    return this.state.allResults.map((item) => (
       <View key={item.imdbID} style={styles.searchResult}>
         <TouchableOpacity
           onPress={() =>
@@ -51,13 +62,24 @@ export default class SearchResults extends React.Component {
     return <View style={styles.searchResultsRow}>{this.movieTitles()}</View>;
   };
 
+  handleScroll = (e) => {
+    const bottom =
+      e.nativeEvent.contentSize.height -
+        e.nativeEvent.contentOffset.y -
+        e.nativeEvent.layoutMeasurement.height <
+      20;
+    if (bottom) {
+      this.getMovieData();
+    }
+  };
+
   render() {
     if (this.state.isLoading) {
       return <Text>Loading...</Text>;
     }
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} onScroll={this.handleScroll}>
         <TextInput
           style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
           onChangeText={(text) => this.onChangeText(text)}
