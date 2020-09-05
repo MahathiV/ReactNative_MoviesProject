@@ -1,7 +1,8 @@
 import React from "react";
+import Svg, { Rect } from "react-native-svg";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { BaseRouter } from "@react-navigation/native";
-import { movie } from "./mockData.js"
+import { movie } from "./mockData.js";
 
 function MovieDetails(props) {
   const temp = props.route.params.movieID;
@@ -18,10 +19,25 @@ function MovieDetails(props) {
   }
 
   ratings = () => {
-    return movie.Ratings.map((item) => (
-      <View style={styles.rating}>
-        <Text>{normalizeRatings(item.Value)} / 100: </Text>
+    return movie.Ratings.map((item, index) => (
+      <View style={styles.rating} key={index}>
         <Text>{item.Source}</Text>
+        <Svg width="50%" height="100%">
+          <Rect
+            width="50%"
+            height="100%"
+            fill="rgb(0,223,23)"
+            strokeWidth="0"
+          />
+          <Rect
+            x={normalizeRatings(item.Value)}
+            width={100 - normalizeRatings(item.Value)}
+            height="100%"
+            fill="rgb(223,223,127)"
+            strokeWidth="0"
+          />
+          <Text>{item.Value}</Text>
+        </Svg>
       </View>
     ));
   }
@@ -56,6 +72,8 @@ const styles = StyleSheet.create({
   },
   rating: {
     flexDirection: 'row',
+    marginVertical: 10,
+    justifyContent: 'space-between',
   }
 });
 
