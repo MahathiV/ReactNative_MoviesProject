@@ -19,7 +19,8 @@ Search results
 
 Movie details
 
-- [ ] display info about movie using mock data
-- [ ] make api call based on passed in imdbID
-- [ ] use api call results instead of mock data
-- [ ] styling
+- [x] display info about movie using mock data
+- [x] make api call based on passed in imdbID
+- [x] use api call results instead of mock data
+- [] styling
+

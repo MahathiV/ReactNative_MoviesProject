@@ -1,26 +1,38 @@
 import React from "react";
 import Svg, { Rect } from "react-native-svg";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
-import { BaseRouter } from "@react-navigation/native";
-import { movie } from "./mockData.js";
-import API from './env.js';
+import { OMDB_KEY } from "./env.js";
 
-function MovieDetails(props) {
-  const temp = props.route.params.movieID;
+export default class MovieDetails extends React.Component {
+  state = {
+    movieId: this.props.route.params.movieID,
+    movie: null,
+    isLoading: true,
+    navigation: this.props.navigation,
+    url: "http://www.omdbapi.com/?apikey=",
+  };
 
-  function normalizeRatings(rating) {
-    var result = NaN
+  componentDidMount() {
+    fetch(`${this.state.url}${OMDB_KEY}&i=${this.state.movieId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ movie: data, isLoading: false });
+      });
+  }
+
+  normalizeRatings(rating) {
+    var result = NaN;
     if (/^(\d+|(\.\d+))(\.\d+)?%$/.test(rating)) {
-      result = parseFloat(rating)
+      result = parseFloat(rating);
     } else {
-      var split = rating.split('/');
-      var result = split[0]/split[1]*100
+      var split = rating.split("/");
+      var result = (split[0] / split[1]) * 100;
     }
-    return result
+    return result;
   }
 
   ratings = () => {
-    return movie.Ratings.map((item, index) => (
+    return this.state.movie.Ratings.map((item, index) => (
       <View style={styles.rating} key={index}>
         <Text>{item.Source}</Text>
         <Svg width="50%" height="100%">
@@ -31,8 +43,8 @@ function MovieDetails(props) {
             strokeWidth="0"
           />
           <Rect
-            x={normalizeRatings(item.Value)}
-            width={100 - normalizeRatings(item.Value)}
+            x={this.normalizeRatings(item.Value)}
+            width={100 - this.normalizeRatings(item.Value)}
             height="100%"
             fill="rgb(223,223,127)"
             strokeWidth="0"
@@ -41,22 +53,36 @@ function MovieDetails(props) {
         </Svg>
       </View>
     ));
+  };
+  render() {
+    if (this.state.isLoading) {
+      return <Text>Loading...</Text>;
+    }
+    return (
+      <View style={styles.container}>
+        <Text style={{ fontWeight: "bold", fontSize: 21 }}>
+          {this.state.movie.Title}
+        </Text>
+        <Text style={styles.boldtText}>
+          Year of Release - {this.state.movie.Year}
+        </Text>
+        <Text style={styles.boldtText}>Rating - {this.state.movie.Rated}</Text>
+        <Text style={styles.boldtText}>
+          Runtime - {this.state.movie.Runtime}
+        </Text>
+        <Text style={styles.boldtText}>Genre - {this.state.movie.Genre}</Text>
+        <Text style={styles.boldtText}>
+          Director - {this.state.movie.Director}
+        </Text>
+        <Text style={styles.boldtText}>Actors - {this.state.movie.Actors}</Text>
+        <Text style={styles.boldtText}>
+          Languages - {this.state.movie.Language}
+        </Text>
+        <Text style={styles.boldtText}>Awards - {this.state.movie.Awards}</Text>
+        <View>{this.ratings()}</View>
+      </View>
+    );
   }
-
-  return (
-    <View style={styles.container}>
-       <Text style={{ fontWeight: "bold",fontSize:21 }}>{movie.Title}</Text>
-       <Text style={styles.boldtText}>Year of Release - {movie.Year}</Text>
-       <Text style={styles.boldtText}>Rating - {movie.Rated}</Text>
-       <Text style={styles.boldtText}>Runtime - {movie.Runtime}</Text>
-       <Text style={styles.boldtText}>Genre - {movie.Genre}</Text>
-       <Text style={styles.boldtText}>Director - {movie.Director}</Text>
-       <Text style={styles.boldtText}>Actors - {movie.Actors}</Text>
-       <Text style={styles.boldtText}>Languages - {movie.Language}</Text>
-       <Text style={styles.boldtText}>Awards - {movie.Awards}</Text>
-       <View>{ratings()}</View>
-    </View>
-  );
 }
 
 const styles = StyleSheet.create({
@@ -64,18 +90,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 20,
-    margin:2,
+    margin: 2,
     alignSelf: "center",
-
   },
   boldtText: {
     fontSize: 18,
   },
   rating: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 10,
-    justifyContent: 'space-between',
-  }
+    justifyContent: "space-between",
+  },
 });
-
-export default MovieDetails;
