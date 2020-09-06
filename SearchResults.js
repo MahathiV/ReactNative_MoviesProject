@@ -40,7 +40,8 @@ export default class SearchResults extends React.Component {
   };
 
   onChangeText = (val) => {
-    this.setState({ searchTitle: val });
+    this.setState({ searchTitle: val.target.value,allResults:[],isLoading:true,page:0});
+    this.getMovieData();
   };
 
   movieTitles = () => {
@@ -82,7 +83,7 @@ export default class SearchResults extends React.Component {
       <ScrollView style={styles.container} onScroll={this.handleScroll}>
         <TextInput
           style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-          onChangeText={(text) => this.onChangeText(text)}
+          onSubmitEditing={(e) => this.onChangeText(e)}
         ></TextInput>
         {this.searchResults()}
       </ScrollView>
