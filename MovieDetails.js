@@ -1,6 +1,6 @@
 import React from "react";
 import Svg, { Rect } from "react-native-svg";
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { OMDB_KEY } from "./env.js";
 
 export default class MovieDetails extends React.Component {
@@ -34,10 +34,10 @@ export default class MovieDetails extends React.Component {
   ratings = () => {
     return this.state.movie.Ratings.map((item, index) => (
       <View style={styles.rating} key={index}>
-        <Text>{item.Source}</Text>
-        <Svg width="50%" height="100%">
+        <Text style={styles.ratingLabel}>{item.Source}</Text>
+        <Svg width="50%" height="100%" style={styles.svgStyling}>
           <Rect
-            width="50%"
+            width="100"
             height="100%"
             fill="rgb(0,223,23)"
             strokeWidth="0"
@@ -59,28 +59,49 @@ export default class MovieDetails extends React.Component {
       return <Text>Loading...</Text>;
     }
     return (
-      <View style={styles.container}>
-        <Text style={{ fontWeight: "bold", fontSize: 21 }}>
-          {this.state.movie.Title}
-        </Text>
-        <Text style={styles.boldtText}>
-          Year of Release - {this.state.movie.Year}
-        </Text>
-        <Text style={styles.boldtText}>Rating - {this.state.movie.Rated}</Text>
-        <Text style={styles.boldtText}>
-          Runtime - {this.state.movie.Runtime}
-        </Text>
-        <Text style={styles.boldtText}>Genre - {this.state.movie.Genre}</Text>
-        <Text style={styles.boldtText}>
-          Director - {this.state.movie.Director}
-        </Text>
-        <Text style={styles.boldtText}>Actors - {this.state.movie.Actors}</Text>
-        <Text style={styles.boldtText}>
-          Languages - {this.state.movie.Language}
-        </Text>
-        <Text style={styles.boldtText}>Awards - {this.state.movie.Awards}</Text>
-        <View>{this.ratings()}</View>
-      </View>
+      <ScrollView style={styles.container}>
+        <Text style={styles.movieTitle}>{this.state.movie.Title}</Text>
+        <View style={styles.row}>
+          <Text style={styles.boldtText}>Year of Release - </Text>
+          <Text style={styles.details}>{this.state.movie.Year}</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.boldtText}>Rating - </Text>
+          <Text style={styles.details}>{this.state.movie.Rated}</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.boldtText}>Runtime - </Text>
+          <Text style={styles.details}>{this.state.movie.Runtime}</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.boldtText}>Genre - </Text>
+          <Text style={styles.details}>{this.state.movie.Genre}</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.boldtText}>Director - </Text>
+          <Text style={styles.details}>{this.state.movie.Director}</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.boldtText}>Actors - </Text>
+          <Text style={styles.details}>{this.state.movie.Actors}</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.boldtText}>Languages - </Text>
+          <Text style={styles.details}>{this.state.movie.Language}</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.boldtText}>Awards - </Text>
+          <Text style={styles.details}>{this.state.movie.Awards}</Text>
+        </View>
+        <View style={styles.scoreBoard}>{this.ratings()}</View>
+      </ScrollView>
     );
   }
 }
@@ -96,9 +117,39 @@ const styles = StyleSheet.create({
   boldtText: {
     fontSize: 18,
   },
+  details: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  row: {
+    borderColor: "black",
+    borderBottomWidth: 0.4,
+    paddingTop: 10,
+  },
   rating: {
     flexDirection: "row",
     marginVertical: 10,
     justifyContent: "space-between",
+  },
+  ratingLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    width: "55%",
+  },
+  scoreBoard: {
+    borderColor: "black",
+    borderWidth: 0.5,
+    margin: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  svgStyling: {
+    alignItems: "flex-end",
+  },
+  movieTitle: {
+    fontWeight: "bold",
+    fontSize: 22,
+    alignSelf: "center",
+    borderBottomWidth: 1,
   },
 });
