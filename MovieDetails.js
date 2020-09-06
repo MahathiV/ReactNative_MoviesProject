@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { BaseRouter } from "@react-navigation/native";
-import { movie } from "./mockData.js"
+import { movie } from "./mockData.js";
+import API from './env.js';
 
 function MovieDetails(props) {
   const temp = props.route.params.movieID;
