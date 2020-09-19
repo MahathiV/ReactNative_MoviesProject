@@ -39,9 +39,17 @@ export default class SearchResults extends React.Component {
       });
   };
 
-  onChangeText = (val) => {
-    this.setState({ searchTitle: val.target.value,allResults:[],isLoading:true,page:0});
-    this.getMovieData();
+  updateSearchTerm = (e) => {
+    this.setState(
+      {
+        searchTitle: e.nativeEvent.text,
+        page: 0,
+        allResults: [],
+      },
+      () => {
+        this.getMovieData();
+      }
+    );
   };
 
   movieTitles = () => {
