@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   TextInput,
+  Picker,
 } from "react-native";
 import { OMDB_KEY } from "./env.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -19,11 +20,24 @@ export default class SearchResults extends React.Component {
     url: "http://www.omdbapi.com/?apikey=",
     page: 0,
     allResults: [],
+    selectedFilter: null,
   };
 
   componentDidMount() {
     this.getMovieData();
   }
+
+  populatedDecades = () => {
+    let decades = this.state.allResults.map((item) => {
+      return (Math.floor(+item["Year"] / 10) * 10).toString();
+    });
+
+    return [...new Set(decades)]
+      .sort()
+      .map((decade) => (
+        <Picker.Item label={decade} value={decade} key={decade} />
+      ));
+  };
 
   getMovieData = () => {
     this.setState({ page: ++this.state.page });
@@ -53,7 +67,7 @@ export default class SearchResults extends React.Component {
   };
 
   movieTitles = () => {
-    return this.state.allResults.map((item) => (
+    return this.filteredResults().map((item) => (
       <View key={item.imdbID} style={styles.searchResult}>
         <TouchableOpacity
           onPress={() =>
@@ -69,6 +83,15 @@ export default class SearchResults extends React.Component {
 
   searchResults = () => {
     return <View style={styles.searchResultsRow}>{this.movieTitles()}</View>;
+  };
+
+  filteredResults = () => {
+    if (this.state.selectedFilter === null) return this.state.allResults;
+
+    const result = this.state.allResults.filter((movie) => {
+      return parseInt(+movie.Year / 10) === this.state.selectedFilter / 10;
+    });
+    return result;
   };
 
   handleScroll = (e) => {
@@ -91,8 +114,16 @@ export default class SearchResults extends React.Component {
       <ScrollView style={styles.container} onScroll={this.handleScroll}>
         <TextInput
           style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-          onSubmitEditing={(e) => this.onChangeText(e)}
+          onSubmitEditing={(e) => this.updateSearchTerm(e)}
         ></TextInput>
+        <Picker
+          selectedValue={this.state.selectedFilter}
+          style={{ height: 50, width: 150 }}
+          onValueChange={(year) => this.setState({ selectedFilter: year })}
+        >
+          <Picker.Item label="All" value={null} key="All" />
+          {this.populatedDecades()}
+        </Picker>
         {this.searchResults()}
       </ScrollView>
     );
